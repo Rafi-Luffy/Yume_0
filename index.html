@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Letter to My Loved Ones</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: black;
+      color: white;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      animation: fadeBg 45s infinite;
+      z-index: -1;
+    }
+
+    @keyframes fadeBg {
+      0%, 100% { background-image: url('image1.jpg'); }
+      33% { background-image: url('image2.jpg'); }
+      66% { background-image: url('image3.jpg'); }
+    }
+
+    .intro {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      text-align: center;
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      animation: zoomInFade 4s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes zoomInFade {
+      0% {
+        transform: translate(-50%, -50%) scale(0.3);
+        opacity: 0;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .poem-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 1.7rem;
+      width: 80%;
+      line-height: 2.8rem;
+      opacity: 0;
+    }
+
+    .line {
+      opacity: 0;
+      display: block;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="background"></div>
+
+  <div class="intro" id="introText">To the most special people in my life 💌</div>
+
+  <div class="poem-container" id="poem"></div>
+
+  <audio autoplay loop>
+  <source src="https://rafi-luffy.github.io/Yume/your-song.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const poemLines = [
+        "To those who've held me when the world grew cold,",
+        "Your kindness and warmth, more precious than gold.",
+        "You’ve seen my tears and heard my song,",
+        "Stayed by my side when all felt wrong.",
+
+        "To the laughs we shared and memories we made,",
+        "To love that never will ever fade.",
+        "You taught me hope, you gave me grace,",
+        "You made the darkest moments a better place.",
+
+ "In moments bright and shadows deep,",
+      "Your love’s the light I always keep.",
+      "Through every laugh, through every tear,",
+      "I hold you close, I feel you near.",
+
+      "For all you are and all you do,",
+      "My heart beats warmly just for you.",
+      "In silent nights and golden days,",
+      "You've filled my world in countless ways.",
+
+      "When storms arrive, you calm my skies,",
+      "With just one look, your loving eyes.",
+      "A bond that's built on faith and care,",
+      "With every word, you're always there.",
+
+      "A touch so soft, a heart so true,",
+      "No one brings more light than you.",
+      "You've taught me grace and how to grow,",
+      "Through highs and lows, you always show.",
+
+      "That love is strong and always stays,",
+      "Even through the darkest days.",
+      "For all your warmth, your truth, your grace,",
+      "You’ve made this world a better place.",
+
+      "So this small note I give today,",
+      "To thank you more than words can say.",
+      "With every step, you're by my side,",
+      "In you, my joy and strength reside.",
+
+      "The quiet moments, loud with care,",
+      "Your presence lingers everywhere.",
+      "Each heartbeat sings your sweet refrain,",
+      "You ease my sorrow, soothe my pain.",
+
+      "A candle lit in winter's chill,",
+      "A gentle touch that time can’t kill.",
+      "From youth to now, you've always stayed,",
+      "No love like yours can be repaid.",
+
+
+        "This letter is more than just a rhyme,",
+        "It’s a piece of my soul, frozen in time.",
+        "To say ‘I love you’ just isn’t enough,",
+        "You’ve been my strength when life was tough.",
+
+        "Forever is ours, in this journey divine,",
+        "For each heartbeat, your names align.",
+        "So read this and know it’s true,",
+        "My world is brighter... because of you. 💖"
+      ];
+
+      const intro = document.getElementById('introText');
+      const poemContainer = document.getElementById('poem');
+
+      setTimeout(() => {
+        intro.style.display = 'none';
+        poemContainer.style.opacity = 1;
+        showPoem();
+      }, 5500);
+
+      let index = 0;
+      function showPoem() {
+        if (index < poemLines.length) {
+          poemContainer.innerHTML = '';
+          const line1 = document.createElement('span');
+          const line2 = document.createElement('span');
+          line1.className = 'line';
+          line2.className = 'line';
+
+          typeWriter(poemLines[index], line1, () => {
+            if (index + 1 < poemLines.length) {
+              typeWriter(poemLines[index + 1], line2, () => {
+                poemContainer.appendChild(line1);
+                poemContainer.appendChild(line2);
+                index += 2;
+                setTimeout(showPoem, 5800);
+              });
+            } else {
+              poemContainer.appendChild(line1);
+            }
+          });
+        }
+      }
+
+      function typeWriter(text, element, callback) {
+        poemContainer.innerHTML = '';
+        poemContainer.appendChild(element);
+        let i = 0;
+        function typing() {
+          if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(typing, 60);
+          } else {
+            callback();
+          }
+        }
+        typing();
+      }
+    });
+  </script>
+
+</body>
+</html>
